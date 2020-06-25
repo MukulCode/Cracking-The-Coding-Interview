@@ -40,11 +40,37 @@ int tripleStepMemoisation(int n, vector<int>& dp) {
 }
 
 
+int tripleStepDP(int N, vector<int>& dp) {
+    for(int n = 0; n <= N; n++){
+        if (n == 0){
+            dp[n] = 1;
+            continue;
+        }
+        int count = 0;
+        if(n-1 >= 0){
+            count += dp[n-1];
+        }
+    
+        if(n-2 >= 0){
+            count += dp[n-2];
+        }
+    
+        if(n-3 >= 0){
+            count += dp[n-3];
+        }
+
+        dp[n] = count;
+    }
+    return dp[N];
+}
+
+
 int main () {
     int n;
     cin >> n;
     vector<int> dp(n+1, -1);
     cout << tripleStepRecursive(n) << endl;
-    cout << tripleStepMemoisation(n, dp) << endl;
+    // cout << tripleStepMemoisation(n, dp) << endl;
+    cout << tripleStepDP(n, dp) << endl;
     display(dp);
 }
