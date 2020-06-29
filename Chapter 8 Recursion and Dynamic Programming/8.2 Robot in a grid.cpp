@@ -27,11 +27,38 @@ int robotInGridRecursive(vector<vector<int>> input, int i, int j) {
     return right + down;
 }
 
+
+int robotInGridMemoisation(vector<vector<int>>& input, int i, int j, vector<vector<int>>& dp) {
+    int n = input.size(), m = input[0].size();
+    if(input[i][j] == 1){
+        return dp[i][j] = 0;
+    }else if(i == n-1 && j == m-1){
+        return dp[i][j] = 1;
+    }
+
+    if(dp[i][j] != -1){
+        return dp[i][j];
+    } 
+
+    int down = 0, right = 0;
+    if(i+1 <= n-1) {
+        down += robotInGridMemoisation(input, i+1, j, dp);
+    }
+
+    if(j+1 <= m-1){
+        right += robotInGridMemoisation(input, i, j+1, dp);
+    }
+    return dp[i][j] = (right + down);
+}
+
+
 int main () {
     vector<vector<int>> input = {{0, 0, 0},
                                 {0, 1, 0},
                                 {0, 0, 0}};
                                 
 
-        cout << robotInGrid(input, 0, 0) << endl;
+    vector<vector<int>> dp(3, vector<int>(3, -1));
+    cout << robotInGridRecursive(input, 0, 0) << endl;
+    cout << robotInGridMemoisation(input, 0, 0, dp) << endl;
 }
